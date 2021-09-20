@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
+#include "tree.h"
 
 using namespace std;
 
@@ -8,9 +9,8 @@ string readFromInput () {
 	string input;
 	
 	cout << "Enter a string\n";
-	cin.ignore();
 	getline(cin, input);
-	
+	cout << "getline";	
 	return input;
 }
 
@@ -38,8 +38,24 @@ int main (int argc, char* argv[]) {
 	} else {
 		input = readFromInput();
 	}
-	
+	cout << "here?";
 	cout << input;
+
+	Tree thisTree;
+
+	thisTree.buildTree(input, thisTree);
+	
+	cout << "In order:";
+//	thisTree.printInorder(thisTree.root);
+	cout << "\n";
+
+	cout << "Pre order:";
+//	thisTree.printPreorder(thisTree.root);
+	cout << "\n";
+
+	cout << "Post order:";
+//	thisTree.printPostorder(thisTree.root);
+	cout <<"\n";
 
 	return 0;
 }

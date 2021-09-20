@@ -7,11 +7,16 @@
 
 class Tree {
 	public:
-		std::list<node> branches;
-		void buildTree(std::string);
-		void printInorder();
-		void printPreorder();
-		void printPostorder();
+		node *root;
+
+		void buildTree(std::string, Tree&);
+		void printInorder(node*);
+		void printPreorder(node*);
+		void printPostorder(node*);
+
+		void addNode (node *, node *);
 };
 
 #endif
+
+

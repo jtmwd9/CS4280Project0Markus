@@ -10,11 +10,11 @@ class Tree {
 		node *root;
 
 		void buildTree(std::string, Tree&);
-		void printInorder(node*);
-		void printPreorder(node*);
-		void printPostorder(node*);
+		void printInorder(Tree, node*, std::string&, int);
+		void printPreorder(Tree, node*, std::string&, int);
+		void printPostorder(Tree, node*, std::string&, int);
 
-		void addNode (node *, node *);
+		void addNode (Tree, node *, node *);
 };
 
 #endif

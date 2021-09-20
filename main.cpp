@@ -10,11 +10,12 @@ string readFromInput () {
 	
 	cout << "Enter a string\n";
 	getline(cin, input);
-	cout << "getline";	
+
 	return input;
 }
 
 string readFromFile (string fileName) {
+	fileName.append(".fl2021");
 	string input;
 	string line;
 	ifstream myFile;
@@ -22,7 +23,7 @@ string readFromFile (string fileName) {
 	
 	if (myFile.is_open()) {
 		while (getline (myFile, line)) {
-			input.append(line);
+			input.append(line + " ");
 		}
 		myFile.close();
 	}
@@ -31,31 +32,43 @@ string readFromFile (string fileName) {
 }
 
 int main (int argc, char* argv[]) {
-	string input;
+	string input, outputName, output = "";
 
 	if (argc > 1) {
 		input = readFromFile(argv[1]);
+		outputName = argv[1];
 	} else {
 		input = readFromInput();
+		outputName = "output";
 	}
-	cout << "here?";
-	cout << input;
+	string outputName2 = outputName;
+	string outputName3 = outputName;
+	outputName.append(".inorder");
+	outputName2.append(".preorder");
+	outputName3.append(".postorder");
+	ofstream myFile1, myFile2, myFile3;
+	myFile1.open(outputName.c_str());
+	myFile2.open(outputName2.c_str());
+	myFile3.open(outputName3.c_str());
 
 	Tree thisTree;
 
 	thisTree.buildTree(input, thisTree);
 	
-	cout << "In order:";
-//	thisTree.printInorder(thisTree.root);
-	cout << "\n";
+	thisTree.printInorder(thisTree, thisTree.root, output, 0);
+	myFile1 << output;
+	myFile1.close();
+	output = "";
 
-	cout << "Pre order:";
-//	thisTree.printPreorder(thisTree.root);
-	cout << "\n";
+	thisTree.printPreorder(thisTree, thisTree.root, output, 0);
+	myFile2 << output;
+	myFile2.close();
+	output= "";
 
-	cout << "Post order:";
-//	thisTree.printPostorder(thisTree.root);
-	cout <<"\n";
+	thisTree.printPostorder(thisTree, thisTree.root, output, 0);
+	myFile3 << output;
+	myFile3.close();
+	output = "";
 
 	return 0;
 }

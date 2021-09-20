@@ -6,89 +6,125 @@
 using namespace std;
 
 void Tree::buildTree(string input, Tree &thisTree) {
-	string thisWord = "", tester;
+	string thisWord = "";
 	char x;
-	int index = input.find(" ");
+
 	node *newNode;
 	newNode = new node;
-	cout << "initializations";
-	thisWord = input.substr(0, index);
-	newNode->word = thisWord;
-	newNode->firstLetter = thisWord[0];
-	thisTree.root = newNode;
-	thisWord = "";
-	cout << "!";
-	cin >> tester;
-	for (int i = index + 1; i < input.length(); i++) {
+
+	thisTree.root = NULL;
+
+	for (int i = 0; i < input.length(); i++) {
 		x = input[i];
+	
 		if (x == ' ') {
+			newNode = new node;
 			newNode->firstLetter = thisWord[0];
 			newNode->word = thisWord;
-			cout << thisWord;
-			thisTree.addNode (thisTree.root, newNode);
+			newNode->right = NULL;
+			newNode->left = NULL;
+			
+			if (thisTree.root == NULL) {
+				thisTree.root = newNode;	
+			} else {
+				thisTree.addNode(thisTree, thisTree.root, newNode);
+			}
+			
 			thisWord = "";
 		} else {
 			thisWord += x;
 		}
 	}
-	cout << "branches for loop";
-	cin >> tester;	
+
+	newNode = new node;
+	newNode->firstLetter = thisWord[0];
+	newNode->word = thisWord;
+	newNode->right = NULL;
+	newNode->left = NULL;
+			
+	if (thisTree.root == NULL) {
+		thisTree.root = newNode;	
+	} else {
+		thisTree.addNode(thisTree, thisTree.root, newNode);
+	}
+
 	return;
 }
 
-void Tree::addNode (node *oldNode, node *newNode) {
-	string tester;
-	cout << "addNode";
-	cin >> tester;
-	if (newNode->firstLetter < oldNode->firstLetter) {
+void Tree::addNode (Tree tree, node *oldNode, node *newNode) {
+	if (oldNode->firstLetter > newNode->firstLetter) {
 		if (oldNode->left == NULL) {
 			oldNode->left = newNode;
 			return;
 		} else {
-			addNode(oldNode->left, newNode);
+			tree.addNode (tree, oldNode->left, newNode);
 		}
+	} else if (oldNode->firstLetter == newNode->firstLetter) {
+		oldNode->word.append(" " + newNode->word);
+		delete newNode;
 	} else {
 		if (oldNode->right == NULL) {
 			oldNode->right = newNode;
 			return;
 		} else {
-			addNode(oldNode->right, newNode);
+			tree.addNode(tree, oldNode->right, newNode);
 		}
 	}
 }
 
-void Tree::printInorder(node* node) {
+void Tree::printInorder(Tree tree, node* node, string &output, int count) {
 	if (node == NULL) {
 		return;
 	}
+
+	count++;	
+	tree.printInorder(tree, node->left, output, count);
+	count--;
 	
-	printInorder(node->left);
+	for(int i = 0; i <= 2 * count; i++) {
+		output.append(" ");
+	}
+	output += node->word[0];
+	output.append(": " + node->word + "\n");
 
-	cout << node->word << " ";
-
-	printInorder (node->right);
+	count++;
+	tree.printInorder (tree, node->right, output, count);
+	count--;
 }
 
-void Tree::printPreorder(node* node) {
+void Tree::printPreorder(Tree tree, node* node, string &output, int count) {
 	if (node == NULL) {
 		return;
 	}
 
-	cout << node->word << " ";
+	for(int i = 0; i <= 2 * count; i++) {
+		output.append(" ");
+	}
+	output += node->word[0];
+	output.append(": " + node->word + "\n");
 
-	printPreorder (node->left);
-
-	printPreorder (node->right);
+	count++;
+	tree.printPreorder (tree, node->left, output, count);
+	count--;
+	count++;
+	tree.printPreorder (tree, node->right, output, count);
+	count--;
 }
 
-void Tree::printPostorder(node* node) {
+void Tree::printPostorder(Tree tree, node* node, string &output, int count) {
 	if (node == NULL) {
 		return;
 	}
+	count++;
+	tree.printPostorder (tree, node->left, output, count);
+	count--;
+	count++;
+	tree.printPostorder (tree, node->right, output,count);
+	count--;
+	for(int i = 0; i <= 2 * count; i++) {
+		output.append(" ");
+	}
+	output += node->word[0];
+	output.append(": " + node->word + "\n");
 
-	printPostorder (node->left);
-
-	printPostorder (node->right);
-
-	cout << node->word << " ";
 }

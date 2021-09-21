@@ -1,3 +1,10 @@
+/*
+JamesMarkus
+CS 4280 Project 0
+
+generate and parse a binary tree from input or file data
+ */
+
 #include <iostream>
 #include <string.h>
 #include <fstream>
@@ -5,7 +12,7 @@
 
 using namespace std;
 
-string readFromInput () {
+string readFromInput () {				//both readFrom function gather data
 	string input;
 	
 	cout << "Enter a string\n";
@@ -40,7 +47,7 @@ int main (int argc, char* argv[]) {
 	} else {
 		input = readFromInput();
 		outputName = "output";
-	}
+	}						//output tree files
 	string outputName2 = outputName;
 	string outputName3 = outputName;
 	outputName.append(".inorder");

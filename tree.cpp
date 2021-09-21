@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void Tree::buildTree(string input, Tree &thisTree) {
+void Tree::buildTree(string input, Tree &thisTree) {		//takes data and builds a binary tree with it
 	string thisWord = "";
 	char x;
 
@@ -14,7 +14,7 @@ void Tree::buildTree(string input, Tree &thisTree) {
 
 	thisTree.root = NULL;
 
-	for (int i = 0; i < input.length(); i++) {
+	for (int i = 0; i < input.length(); i++) {		//separates string into words, adds words to nodes
 		x = input[i];
 	
 		if (x == ' ') {
@@ -24,7 +24,7 @@ void Tree::buildTree(string input, Tree &thisTree) {
 			newNode->right = NULL;
 			newNode->left = NULL;
 			
-			if (thisTree.root == NULL) {
+			if (thisTree.root == NULL) {		//creates root node or branch node
 				thisTree.root = newNode;	
 			} else {
 				thisTree.addNode(thisTree, thisTree.root, newNode);
@@ -51,7 +51,7 @@ void Tree::buildTree(string input, Tree &thisTree) {
 	return;
 }
 
-void Tree::addNode (Tree tree, node *oldNode, node *newNode) {
+void Tree::addNode (Tree tree, node *oldNode, node *newNode) {	//adds nodes to the tree
 	if (oldNode->firstLetter > newNode->firstLetter) {
 		if (oldNode->left == NULL) {
 			oldNode->left = newNode;
@@ -72,12 +72,12 @@ void Tree::addNode (Tree tree, node *oldNode, node *newNode) {
 	}
 }
 
-void Tree::printInorder(Tree tree, node* node, string &output, int count) {
+void Tree::printInorder(Tree tree, node* node, string &output, int count) {	//each uses reference string to save node data
 	if (node == NULL) {
 		return;
 	}
 
-	count++;	
+	count++;		//keep track of indentations for final output	
 	tree.printInorder(tree, node->left, output, count);
 	count--;
 	
